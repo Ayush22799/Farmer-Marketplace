@@ -31,7 +31,7 @@ public class TestLoginServiceController {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(loginService.saveDetail(any(UserInfo.class))).thenReturn(new UserInfo());
-        UserInfo userInfo = new UserInfo(Role.ADMIN, "Supriya", "SupriyaDon", 9998887770L, "Gramin Bank", 123456789L);
+        UserInfo userInfo = new UserInfo("FARMER", "Supriya", "SupriyaDon", 9998887770L, "Gramin Bank", 123456789L);
         ResponseEntity<UserInfo> response = loginController.saveDetail(userInfo);
 
         assertThat(response.getStatusCode().is2xxSuccessful());

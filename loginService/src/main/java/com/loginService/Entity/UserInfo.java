@@ -33,4 +33,14 @@ public class UserInfo {
 
 	@Column(name = "account_number")
 	private long accountNo;
+
+	public UserInfo(String userType, String userName, String password, long phoneNo, String bankName, long accountNo){
+		this.userType = userType;
+		this.userName = userName;
+		this.password = password;
+		this.phoneNo = phoneNo;
+		this.bankName = bankName;
+		this.accountNo = accountNo;
+	}
+
 }
