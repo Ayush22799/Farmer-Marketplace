@@ -17,10 +17,19 @@ spring:
           filters:
             - AuthenticationFilter
 
+        - id: ADMIN-SERVICE
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/admin/**
+          filters:
+            - AuthenticationFilter
+
         - id: LOGIN-SERVICE
           uri: lb://LOGIN-SERVICE
           predicates:
             - Path=/auth/**
+
+
   application:
     name: GATEWAY-SERVICE
 

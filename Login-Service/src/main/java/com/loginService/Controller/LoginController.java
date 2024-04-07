@@ -33,8 +33,6 @@ public class LoginController {
 	@Autowired
 	private final JwtService jwtService;
 
-	@Autowired
-	private final AuthenticationManager authenticationManager;
 
 	@Autowired
 	private final UserInfoUserDetailsService userDetailsService;
@@ -55,21 +53,20 @@ public class LoginController {
 		return ResponseEntity.ok(service.getUserByUsername(username));
 	}
 
-
+	@DeleteMapping("/login/delete/User/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") int id){
+		return ResponseEntity.ok(service.deleteUser(id));
+	}
 
 	@PutMapping("/login/updateDetail/{userId}")
 		public ResponseEntity<UserInfo> updateDetail(@PathVariable int userId, @RequestBody UserInfo userInfo) {
 		  return ResponseEntity.ok(service.updateDetail(userId, userInfo));
 	  }
 
+
 	@PostMapping("/v1/authenticate")
 	public String authenticate(@RequestBody AuthenticationRequest request) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword()));
-		if (authentication.isAuthenticated()){
-			return jwtService.generateToken(request.getUserName());
-		} else {
-			throw new InvalidValueProvidedException("Invalid User Request !");
-		}
+		return service.authenticate(request);
 	}
 
 	@GetMapping("/v1/validate/user/{username}")

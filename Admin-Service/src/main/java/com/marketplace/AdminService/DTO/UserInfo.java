@@ -1,40 +1,30 @@
-package com.loginService.Entity;
+package com.marketplace.AdminService.DTO;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
-@Entity
+
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="User_Info")
 public class UserInfo {
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "user_id")
 	private int userId;
 
-	@Column(name = "user_type")
-    private String userType;
+	private String userType;
 
-	@Column(name = "username")
 	private String userName;
 
-	@Column(name = "password")
 	private String password;
 
-	@Column(name = "phone_number")
 	private long phoneNo;
 
-	@Column(name = "bank_name")
 	private String bankName;
 
-	@Column(name = "account_number")
 	private long accountNo;
 
-	@Column(name = "token")
 	private String token;
 
 	public UserInfo(String userType, String userName, String password, long phoneNo, String bankName, long accountNo){

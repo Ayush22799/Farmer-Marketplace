@@ -35,7 +35,7 @@ public class SecurityConfiguration {
     http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/v1/**").permitAll()
-                    .requestMatchers("/auth/login/**", "/farmer/**", "/Dealer/**").authenticated()
+                    .requestMatchers("/auth/login/**", "/farmer/**", "/Dealer/**", "/admin/**").authenticated()
             )
             .sessionManagement(ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider())
