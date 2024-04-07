@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.loginService</groupId>
-	<artifactId>loginService</artifactId>
+	<artifactId>Login-Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>loginService</name>
 	<description>This is login service</description>

@@ -1,7 +1,6 @@
 package com.loginService.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loginService.controller.LoginController;
 import com.loginService.Entity.UserInfo;
 import com.loginService.service.LoginService;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.loginService.controller;
+package com.loginService.Controller;
 
 import com.loginService.Exception.InvalidValueProvidedException;
 
@@ -10,13 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -41,7 +39,7 @@ public class LoginController {
 	@Autowired
 	private final UserInfoUserDetailsService userDetailsService;
 
-	@PostMapping("/login/addDetail")
+	@PostMapping("/v1/addDetail")
 	public ResponseEntity<UserInfo> saveDetail(@RequestBody UserInfo userInfo) {
 		return ResponseEntity.ok(service.saveDetail(userInfo));
 	}
@@ -67,22 +65,13 @@ public class LoginController {
 		}
 	}
 
-	@GetMapping("/v1/validate")
-	public ResponseEntity<Boolean> validateAdmin(@RequestHeader(name = "Authorization") String token) {
-		log.info("START - validateAdmin()");
-		UserDetails user = userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
+	@GetMapping("/v1/validate/user/{username}")
+	public String validateToken(@RequestParam("token") String token, @PathVariable("username") String username){
+		UserDetails user = userDetailsService.loadUserByUsername(username);
 
-		// throws custom exception and response if token is invalid
-		jwtService.validateToken(token,user);
-
-		// else the user is loaded and role is checked, if role is valid, access is granted
-
-		if (user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
-			log.info("END - validateAdmin()");
-			return new ResponseEntity<>(true, HttpStatus.OK);
+		if (jwtService.validateToken(token,user)){
+			return "Token is valid";
 		}
-
-		return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
-
+		return "token is invalid";
 	}
 }
