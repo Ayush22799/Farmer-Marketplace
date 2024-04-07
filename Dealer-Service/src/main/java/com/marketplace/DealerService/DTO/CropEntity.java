@@ -1,4 +1,4 @@
-package com.marketplace.DealerService.Entity;
+package com.marketplace.DealerService.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

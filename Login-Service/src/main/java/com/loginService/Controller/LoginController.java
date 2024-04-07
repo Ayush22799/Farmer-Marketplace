@@ -44,13 +44,20 @@ public class LoginController {
 		return ResponseEntity.ok(service.saveDetail(userInfo));
 	}
 
-	  @GetMapping("/login/UserList/{userId}")
+	  @GetMapping("/v1/User/{userId}")
       public ResponseEntity<UserInfo> getUserDetailsById(@PathVariable int userId){
     	  return ResponseEntity.ok(service.getUserDetailsById(userId));
     	
 		 }
-	  
-	  @PutMapping("/login/updateDetail/{userId}")
+
+	@GetMapping("/login/User/{username}")
+	public ResponseEntity<UserInfo> getUserByUsername(@PathVariable String username){
+		return ResponseEntity.ok(service.getUserByUsername(username));
+	}
+
+
+
+	@PutMapping("/login/updateDetail/{userId}")
 		public ResponseEntity<UserInfo> updateDetail(@PathVariable int userId, @RequestBody UserInfo userInfo) {
 		  return ResponseEntity.ok(service.updateDetail(userId, userInfo));
 	  }

@@ -1,0 +1,35 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: FARMER-SERVICE
+          uri: lb://FARMER-SERVICE
+          predicates:
+            - Path=/farmer/**
+          filters:
+            - AuthenticationFilter
+
+
+        - id: DEALER-SERVICE
+          uri: lb://DEALER-SERVICE
+          predicates:
+            - Path=/Dealer/**
+          filters:
+            - AuthenticationFilter
+
+        - id: LOGIN-SERVICE
+          uri: lb://LOGIN-SERVICE
+          predicates:
+            - Path=/auth/**
+  application:
+    name: GATEWAY-SERVICE
+
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka
+

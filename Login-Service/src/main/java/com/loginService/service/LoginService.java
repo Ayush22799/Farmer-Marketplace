@@ -8,6 +8,8 @@ public interface LoginService {
 
 	 UserInfo getUserDetailsById(int userId);
 
+	 UserInfo getUserByUsername(String username);
+
 	 UserInfo updateDetail(int id, UserInfo userInfo);
 
 }

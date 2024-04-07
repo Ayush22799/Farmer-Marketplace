@@ -12,7 +12,6 @@ import java.util.List;
 @RequestMapping("/farmer")
 @CrossOrigin
 public class Controller {
-
     @Autowired
     CropService cropService;
 

@@ -56,6 +56,16 @@ public class LoginServiceImpl implements LoginService {
 		return user.get();
 	}
 
+	@Override
+	public UserInfo getUserByUsername(String username) {
+		Optional<UserInfo> user = repo.findByuserName(username);
+		if(user.isEmpty()){
+			throw new DetailsNotFoundException("No details available for UserId: " + username);
+		}
+		return user.get();
+
+	}
+
 	public UserInfo updateDetail(int id, UserInfo userInfo) {
 		Optional<UserInfo> user = repo.findById(id);
 		if(user.isEmpty()){
