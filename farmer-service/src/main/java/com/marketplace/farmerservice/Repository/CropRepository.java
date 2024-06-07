@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CropRepository extends JpaRepository<CropEntity, Integer> {
 
 
-    @Query(value = "select * from crop_details c where c.farmer_id = ?1 and c.crop_name = ?2", nativeQuery=true)
-    Optional<CropEntity> findAllCropByFarmerId(int userId, String cropName);
+    @Query(value = "select * from crop_details c where c.farmer_id = ?1 and c.crop_name = ?2 limit 1", nativeQuery=true)
+   Optional<CropEntity> findAllCropByFarmerId(int userId, String cropName);
 }

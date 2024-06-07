@@ -1,8 +1,11 @@
 package com.marketplace.farmerservice.Service.Impl;
 
-import com.loginService.Exception.DetailsNotFoundException;
-import com.loginService.Entity.UserInfo;
+
+import com.marketplace.farmerservice.DTO.AuthenticationRequest;
+import com.marketplace.farmerservice.DTO.UserInfo;
 import com.marketplace.farmerservice.Entity.CropEntity;
+import com.marketplace.farmerservice.Exception.DetailsNotFoundException;
+import com.marketplace.farmerservice.Exception.InvalidValueProvidedException;
 import com.marketplace.farmerservice.Feign.UserServiceFeign;
 import com.marketplace.farmerservice.Repository.CropRepository;
 import com.marketplace.farmerservice.Service.CropService;
@@ -22,7 +25,14 @@ public class CropServiceImpl implements CropService {
     CropRepository repository;
     @Override
     public CropEntity saveCropDetails(CropEntity crop) {
-        ResponseEntity<UserInfo> user = userServiceFeign.getUserById(crop.getFarmerId());
+        ResponseEntity<UserInfo> user;
+        try {
+           user = userServiceFeign.getUserById(crop.getFarmerId());
+
+       }
+        catch (Exception e){
+            throw new InvalidValueProvidedException("User Doesn't exisits");
+        }
         if(!user.getBody().getUserType().equalsIgnoreCase("farmer")){
             throw new RuntimeException("Provided user is not a farmer");
         }
@@ -54,6 +64,16 @@ public class CropServiceImpl implements CropService {
             throw new DetailsNotFoundException("No Crop available for provided cropId");
         }
         return crop.get();
+    }
+
+    private String fetchToken(int userId){
+        ResponseEntity<UserInfo> farmerDetails = userServiceFeign.getUserById(userId);
+
+        AuthenticationRequest request = new AuthenticationRequest(farmerDetails.getBody().getUserName(),farmerDetails.getBody().getPassword());
+
+        ResponseEntity<String> token = userServiceFeign.getToken(request);
+
+        return token.getBody();
     }
 
 }

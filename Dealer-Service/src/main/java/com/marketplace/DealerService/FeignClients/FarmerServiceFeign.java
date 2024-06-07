@@ -1,7 +1,7 @@
 package com.marketplace.DealerService.FeignClients;
 
 
-import com.marketplace.DealerService.Entity.CropEntity;
+import com.marketplace.DealerService.DTO.CropEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

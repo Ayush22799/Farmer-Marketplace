@@ -1,9 +1,9 @@
 package com.marketplace.DealerService.Service.Impl;
 
 
-import com.marketplace.DealerService.Entity.CropEntity;
+import com.marketplace.DealerService.DTO.CropEntity;
+import com.marketplace.DealerService.DTO.UserInfo;
 import com.marketplace.DealerService.Entity.DealerCart;
-import com.marketplace.DealerService.Entity.UserInfo;
 import com.marketplace.DealerService.Exception.InvalidValueProvidedException;
 import com.marketplace.DealerService.FeignClients.FarmerServiceFeign;
 import com.marketplace.DealerService.FeignClients.LoginServiceClient;
@@ -11,6 +11,7 @@ import com.marketplace.DealerService.Repository.DealerCartRepo;
 import com.marketplace.DealerService.Service.CartService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,13 @@ public class CartServiceImpl implements CartService {
     FarmerServiceFeign farmerServiceFeign;
     @Override
     public DealerCart saveOrder(DealerCart cart) {
-
-        ResponseEntity<UserInfo> user = loginServiceClient.getUserById(cart.getDealerId());
+        ResponseEntity<UserInfo> user;
+        try {
+            user = loginServiceClient.getUserById(cart.getDealerId());
+        }
+        catch (Exception e){
+            throw new InvalidValueProvidedException("User Doesn't exisits");
+        }
         if(!user.getBody().getUserType().equalsIgnoreCase("dealer")){
             throw new InvalidValueProvidedException("User is not a dealer");
         }
